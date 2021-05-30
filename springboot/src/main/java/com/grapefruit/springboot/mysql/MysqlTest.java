@@ -48,7 +48,7 @@ public class MysqlTest {
       System.out.println(list);
 
       // 程序正常运行时手动提交事务
-      // tx.commit(status);
+      tx.commit(status);
     } catch (Exception e) {
       // 报异常时手动回滚
       tx.rollback(status);

@@ -8,7 +8,6 @@ import com.grapefruit.springboot.mysql.Dao.MyDao;
 import com.grapefruit.springboot.mysql.entity.Grape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 相关描述
@@ -22,7 +21,7 @@ public class MyServiceImpl implements MyService {
     @Autowired
     MyDao myDao;
 
-    @Transactional
+    //@Transactional
     @Override
     public Grape selectGrapeById(int id) {
         return myDao.selectGrapeById(id);
