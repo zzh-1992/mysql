@@ -1,0 +1,16 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--Copyright @2021 Grapefruit. All rights reserved.-->
+<mapper namespace="com.grapefruit.springboot.mysql.mapper.MyMapper">
+    <resultMap type="com.grapefruit.springboot.mysql.entity.Grape" id="baseResultMap">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="num" property="num" jdbcType="BIGINT"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectGrapeById" resultMap="baseResultMap">
+        select * from grape where id = #{id};
+    </select>
+</mapper>

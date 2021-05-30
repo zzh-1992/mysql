@@ -1,0 +1,12 @@
+
+
+###
+GET localhost:8082/send?msg=今天重装系统了
+
+<> 2021-05-02T235023.200.txt
+
+###
+GET /event
+
+### 请求select接口
+GET localhost:8080/sql/select
