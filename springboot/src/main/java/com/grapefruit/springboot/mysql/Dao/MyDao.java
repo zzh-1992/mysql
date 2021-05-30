@@ -4,8 +4,9 @@
 
 package com.grapefruit.springboot.mysql.Dao;
 
-
 import com.grapefruit.springboot.mysql.entity.Grape;
+
+import java.util.List;
 
 /**
  * Dao
@@ -16,5 +17,13 @@ import com.grapefruit.springboot.mysql.entity.Grape;
  */
 public interface MyDao {
 
-    Grape selectGrapeById(int id);
+  Grape selectGrapeById(int id);
+
+  int upGrapeById(Grape grape);
+
+  int insert(Grape grape);
+
+  int insertList(List<Grape> list);
+
+  int deleteList(List<String> list);
 }

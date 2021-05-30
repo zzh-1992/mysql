@@ -6,6 +6,8 @@ package com.grapefruit.springboot.mysql.mapper;
 
 import com.grapefruit.springboot.mysql.entity.Grape;
 
+import java.util.List;
+
 /**
  * 相关描述
  *
@@ -13,13 +15,46 @@ import com.grapefruit.springboot.mysql.entity.Grape;
  * @version 1.0
  * @date 2021-05-28 10:38 下午
  */
-//@Mapper
+// @Mapper
 public interface MyMapper {
 
   /**
    * 通过id获取实体
+   *
    * @param id 主键id
    * @return 实体
    */
   Grape selectGrapeById(int id);
+
+  /**
+   * 更新实体
+   *
+   * @param grape grape
+   * @return 数据库更新条数
+   */
+  int upGrapeById(Grape grape);
+
+  /**
+   * 添加实体
+   *
+   * @param grape grape
+   * @return 数据库更新条数
+   */
+  int insert(Grape grape);
+
+  /**
+   * 添加批量实体
+   *
+   * @param list list
+   * @return 数据库更新条数
+   */
+  int insertList(List<Grape> list);
+
+  /**
+   * 依据id批量删除
+   *
+   * @param list list
+   * @return 数据库影响行数
+   */
+  int deleteList(List<String> list);
 }

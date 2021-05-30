@@ -9,6 +9,8 @@ import com.grapefruit.springboot.mysql.mapper.MyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * impl
  *
@@ -18,11 +20,30 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class MyDaoImpl implements MyDao {
-    @Autowired
-    MyMapper myMapper;
+  @Autowired MyMapper myMapper;
 
-    @Override
-    public Grape selectGrapeById(int id) {
-        return myMapper.selectGrapeById(id);
-    }
+  @Override
+  public Grape selectGrapeById(int id) {
+    return myMapper.selectGrapeById(id);
+  }
+
+  @Override
+  public int upGrapeById(Grape grape) {
+    return myMapper.upGrapeById(grape);
+  }
+
+  @Override
+  public int insert(Grape grape) {
+    return myMapper.insert(grape);
+  }
+
+  @Override
+  public int insertList(List<Grape> list) {
+    return myMapper.insertList(list);
+  }
+
+  @Override
+  public int deleteList(List<String> list) {
+    return myMapper.deleteList(list);
+  }
 }

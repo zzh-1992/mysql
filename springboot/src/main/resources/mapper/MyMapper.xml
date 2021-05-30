@@ -13,4 +13,26 @@
     <select id="selectGrapeById" resultMap="baseResultMap">
         select * from grape where id = #{id};
     </select>
+
+    <update id="upGrapeById" parameterType="com.grapefruit.springboot.mysql.entity.Grape">
+        update grape set name = #{grape.name},num=#{grape.nu},context = #{grape.context};
+    </update>
+
+    <insert id="insert" parameterType="com.grapefruit.springboot.mysql.entity.Grape" >
+        insert into grape (id,name,num,content) values (#{id},#{name},#{num},#{content});
+    </insert>
+
+    <insert id="insertList">
+        insert into grape (id,name,num,content) values
+        <foreach item="item" collection="list"  separator="," >
+            (#{item.id},#{item.name},#{item.num},#{item.content})
+        </foreach>
+    </insert>
+
+    <delete id="deleteList" parameterType="list" >
+        delete from grape where id in
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

@@ -9,6 +9,8 @@ import com.grapefruit.springboot.mysql.entity.Grape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 相关描述
  *
@@ -25,5 +27,20 @@ public class MyServiceImpl implements MyService {
     @Override
     public Grape selectGrapeById(int id) {
         return myDao.selectGrapeById(id);
+    }
+
+    @Override
+    public int insert(Grape grape) {
+        return myDao.insert(grape);
+    }
+
+    @Override
+    public int insertList(List<Grape> list) {
+        return myDao.insertList(list);
+    }
+
+    @Override
+    public int deleteList(List<String> list) {
+        return myDao.deleteList(list);
     }
 }

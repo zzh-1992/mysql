@@ -10,3 +10,12 @@ GET /event
 
 ### 请求select接口
 GET localhost:8080/sql/select
+
+### 请求insert接口
+GET localhost:8080/sql/insert
+
+### 请求insert接口
+GET localhost:8080/sql/insertList
+
+### 请求deleteList接口
+GET localhost:8080/sql/deleteList
