@@ -7,10 +7,9 @@ package com.grapefruit.springboot.mysql;
 import com.grapefruit.springboot.mysql.Service.MyService;
 import com.grapefruit.springboot.mysql.entity.Grape;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.List;
  * @version 1.0
  * @date 2021-05-30 2:23 下午
  */
-@Controller
+@RestController
 @RequestMapping("sql")
 public class SelectController {
   @Autowired private MysqlTest mysqlTest;
@@ -35,8 +34,13 @@ public class SelectController {
     return mysqlTest.execute();
   }
 
+  @RequestMapping(value = "/selectById",method = RequestMethod.POST)
+  public Grape selectById(@RequestBody @Valid Req req) {
+    int id = req.getId();
+    return myService.selectGrapeById(id);
+  }
+
   @RequestMapping("/insert")
-  @ResponseBody
   public int insert() {
     Grape grape = new Grape();
     grape.setId(10);
@@ -47,7 +51,6 @@ public class SelectController {
   }
 
   @RequestMapping("/insertList")
-  @ResponseBody
   public int insertList() {
     List<Grape> list = new ArrayList<>();
     for (int i = 50; i <= 55; i++) {
@@ -62,7 +65,6 @@ public class SelectController {
   }
 
   @RequestMapping("/deleteList")
-  @ResponseBody
   public int deleteList() {
     List<String> list = new ArrayList<>();
     for (int i = 50; i <= 55; i++) {
