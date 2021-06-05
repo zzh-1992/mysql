@@ -23,6 +23,12 @@ import java.util.List;
 public class GlobalExceptionHandler {
     @ExceptionHandler
     public JSONObject handle(Exception ex) {
+        // 创建响应体
+        JSONObject j = new JSONObject();
+
+        // 填充异常对象
+        j.put("class",ex.getClass().getName());
+
         // 处理请求参数异常
         if(ex instanceof MethodArgumentNotValidException){
             MethodArgumentNotValidException exception = (MethodArgumentNotValidException)ex;
@@ -32,17 +38,17 @@ public class GlobalExceptionHandler {
                 sb.append(e.getDefaultMessage());
                 sb.append(";");
             });
-            JSONObject j = new JSONObject();
+
             j.put("code",1);
             j.put("msg",sb.toString());
             j.put("content","参数错误");
+
             return j;
         }
 
         // 处理其他异常
-        JSONObject j = new JSONObject();
         j.put("code",2);
-        j.put("msg","system error");
+        j.put("msg", ex.getMessage());
         j.put("content","error");
         return j;
     }
