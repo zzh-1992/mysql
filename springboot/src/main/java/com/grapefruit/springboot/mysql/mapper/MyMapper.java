@@ -5,6 +5,9 @@
 package com.grapefruit.springboot.mysql.mapper;
 
 import com.grapefruit.springboot.mysql.entity.Grape;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -15,7 +18,7 @@ import java.util.List;
  * @version 1.0
  * @date 2021-05-28 10:38 下午
  */
-// @Mapper
+@Mapper
 public interface MyMapper {
 
   /**
@@ -24,6 +27,7 @@ public interface MyMapper {
    * @param id 主键id
    * @return 实体
    */
+  @Select("select * from grape where id = #{id};")
   Grape selectGrapeById(int id);
 
   /**
@@ -48,6 +52,12 @@ public interface MyMapper {
    * @param list list
    * @return 数据库更新条数
    */
+  @Insert({"<script>",
+          "insert into grape (id,name,num,content) values" +
+                  "<foreach item='item' collection='list'  separator=',' >" +
+                      "(#{item.id},#{item.name},#{item.num},#{item.content})" +
+                  "</foreach>" +
+          "</script>"})
   int insertList(List<Grape> list);
 
   /**
