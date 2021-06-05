@@ -2,13 +2,14 @@
  *Copyright @2021 Grapefruit. All rights reserved.
  */
 
-package com.grapefruit.springboot.mysql;
+package com.grapefruit.springboot.mysql.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ import java.util.List;
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler
+    //@ExceptionHandler
     public JSONObject handle(Exception ex) {
         // 创建响应体
         JSONObject j = new JSONObject();
@@ -51,5 +52,13 @@ public class GlobalExceptionHandler {
         j.put("msg", ex.getMessage());
         j.put("content","error");
         return j;
+    }
+
+    @ExceptionHandler(value = { Exception.class })
+    public ModelAndView nullPointerExceptionHandler(Exception e) {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("error", e.toString());
+        mv.setViewName("error");
+        return mv;
     }
 }
