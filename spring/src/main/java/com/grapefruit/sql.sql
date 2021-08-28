@@ -3,7 +3,7 @@ create database grapefruit;
 use grapefruit;
 
 # 创建表
-create table grape
+create table fruit
 (
     id int primary key ,
     name varchar(20),
@@ -13,23 +13,23 @@ create table grape
 );
 
 #修改表属性
-alter table grape modify num bigint signed;
+alter table fruit modify num bigint signed;
 
 #ALTER TABLE attence CHANGE attence_name NAME  VARCHAR(20)
-ALTER  TABLE grape MODIFY column name varchar(19) default 'orange' comment '名称';
+ALTER  TABLE fruit MODIFY column name varchar(19) default 'orange' comment '名称';
 
-insert into grape (id,name,num,content) values (1,'meizhou',2147483649,'just bigint test');
-insert into grape (id,name,num,content) values (2,'shenzhen',2147483650,'just bigint test 0521');
-insert into grape (id,name,num,content) values (3,'meizhou',2147483651,'just bigint test 0532');
-insert into grape (id,name,num,content) values (4,'meizhou',2147483652,'just bigint test 0555');
-insert into grape (id,name,num,content) values (5,'meizhou',2147483653,'just bigint test 0566');
+insert into fruit (id,name,num,content) values (1,'meizhou',2147483649,'just bigint test');
+insert into fruit (id,name,num,content) values (2,'shenzhen',2147483650,'just bigint test 0521');
+insert into fruit (id,name,num,content) values (3,'meizhou',2147483651,'just bigint test 0532');
+insert into fruit (id,name,num,content) values (4,'meizhou',2147483652,'just bigint test 0555');
+insert into fruit (id,name,num,content) values (5,'meizhou',2147483653,'just bigint test 0566');
 
 
 select * from information_schema.columns
 where table_schema= 'grapefruit';
 
 # 查看字段属性
-show columns from grape;
+show columns from fruit;
 #======================官网教程==================
 # 官网链接 https://dev.mysql.com/doc/refman/8.0/en/alter-table.html
 #修改表到引擎
@@ -54,7 +54,9 @@ ALTER TABLE t1 CHANGE a b BIGINT NOT NULL;
 ALTER TABLE t1 CHANGE b b INT NOT NULL;
 #MODIFY 在不更改名称的情况下更改定义更方便，因为它只需要列名一次：
 ALTER TABLE t1 MODIFY b INT NOT NULL;
-#要更改列名称但不更改其定义，请使用 CHANGE或RENAME COLUMN。使用 时CHANGE，语法需要列定义，因此要保持定义不变，您必须重新指定列当前具有的定义。例如，要重命名INT NOT NULL的列 b到a，这样做：
+#要更改列名称但不更改其定义，请使用 CHANGE或RENAME COLUMN。
+# 使用 时CHANGE，语法需要列定义，因此要保持定义不变，您必须重新指定列当前具有的定义。
+# 例如，要重命名INT NOT NULL的列 b到a，这样做：
 ALTER TABLE t1 CHANGE b a INT NOT NULL;
 #RENAME COLUMN 在不改变定义的情况下更方便地更改名称，因为它只需要旧名称和新名称：
 ALTER TABLE t1 RENAME COLUMN b TO a;
@@ -81,3 +83,43 @@ ALTER TABLE t MODIFY latin1_varchar_col VARCHAR(M) CHARACTER SET utf8;
 
 #仅更改表的默认字符集
 ALTER TABLE tbl_name DEFAULT CHARACTER SET charset_name;
+
+#创建索引
+create index indexName on tbl_name(b);
+# 官方创建索引的语法
+CREATE [UNIQUE | FULLTEXT | SPATIAL] INDEX index_name
+    [index_type]
+    ON tbl_name (key_part,...)
+    [index_option]
+    [algorithm_option | lock_option] ...
+
+key_part: {col_name [(length)] | (expr)} [ASC | DESC]
+
+    index_option: {
+    KEY_BLOCK_SIZE [=] value
+    | index_type
+    | WITH PARSER parser_name
+    | COMMENT 'string'
+    | {VISIBLE | INVISIBLE}
+    | ENGINE_ATTRIBUTE [=] 'string'
+    | SECONDARY_ENGINE_ATTRIBUTE [=] 'string'
+    }
+
+    index_type:
+    USING {BTREE | HASH}
+
+    algorithm_option:
+    ALGORITHM [=] {DEFAULT | INPLACE | COPY}
+
+    lock_option:
+LOCK [=] {DEFAULT | NONE | SHARED | EXCLUSIVE}
+
+#官方删除索引的语法
+    DROP INDEX index_name ON tbl_name
+        [algorithm_option | lock_option] ...
+
+    algorithm_option:
+        ALGORITHM [=] {DEFAULT | INPLACE | COPY}
+
+    lock_option:
+    LOCK [=] {DEFAULT | NONE | SHARED | EXCLUSIVE}
