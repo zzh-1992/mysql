@@ -1,0 +1,30 @@
+
+
+
+1.docker容器部分
+docker run --name mysql07 -p3307:3306 -v /usr/mysql3307/datadir:/var/lib/mysql  -v  /usr/mysql3307/conf:/etc/mysql/conf.d  -v /usr/mysql3307/logs:/var/log/mysql  -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.2
+
+docker run --name mysql08 -p3308:3306 -v /usr/mysql3308/datadir:/var/lib/mysql  -v  /usr/mysql3308/conf:/etc/mysql/conf.d  -v /usr/mysql3308/logs:/var/log/mysql  -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.2
+
+/Users/zhihuangzhang/DockerMount
+docker run --name mysql06 -p3306:3306 -v /Users/zhihuangzhang/DockerMount/mysql3306/datadir:/var/lib/mysql  -v  /Users/zhihuangzhang/DockerMount/mysql3306/conf:/etc/mysql/conf.d  -v /Users/zhihuangzhang/DockerMount/mysql3306/logs:/var/log/mysql  -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.2
+
+2.建库和建表语句
+    1>建库
+        create database grapefruit;
+    2>
+        use grapefruit;
+    3>建表
+        create table fruit
+        (
+            id      int                           not null
+                primary key,
+            name    varchar(19) default 'orange'  null comment '名称',
+            num     bigint unsigned               null,
+            content text                          null,
+            value   varchar(20) default 'myValue' null comment '初始值',
+            link    varchar(128)                  null
+        )
+            comment '测试表';
+    4>建索引
+        create index i on fruit (name);
