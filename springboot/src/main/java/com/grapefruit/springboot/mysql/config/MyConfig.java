@@ -4,16 +4,17 @@
 
 package com.grapefruit.springboot.mysql.config;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import lombok.val;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 
 /**
@@ -25,13 +26,17 @@ import java.io.IOException;
  */
 @Configuration
 public class MyConfig {
+    @Autowired
+    @Qualifier("myRoutingDatasourceConfig")
+    private DataSource dataSource;
+
     /**
      * 获取mapper路径资源
      *
      * @return Resource[]
      */
     public Resource[] getResource() {
-        val resolver = new PathMatchingResourcePatternResolver();
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource[] resources = new Resource[0];
         try {
             resources = resolver.getResources("classpath:/mapper/*.xml");
@@ -41,28 +46,12 @@ public class MyConfig {
         return resources;
     }
 
-    /**
-     * 获取DataSource(后期数据源部分将加密保存)
-     *
-     * @return DataSource
-     */
-    @Bean()
-    public DruidDataSource druidDataSource() {
-        DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setUsername("root");
-        dataSource.setPassword("123456");
-        dataSource.setUrl(
-                "jdbc:mysql://47.115.42.52:3306/grapefruit?useUnicode=true&characterEncoding=UTF-8&useSSL=false");
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        return dataSource;
-    }
-
     // 官方链接:http://mybatis.org/spring/zh/factorybean.html
-    //@Bean
+    @Bean
     public SqlSessionFactoryBean getSqlSessionFactoryBean() {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         // 数据源设置
-        bean.setDataSource(druidDataSource());
+        bean.setDataSource(dataSource);
 
         // mapper路径设置
         bean.setMapperLocations(getResource());
@@ -91,7 +80,7 @@ public class MyConfig {
     //@Bean()
     public DataSourceTransactionManager getDataSourceTransactionManager() {
         DataSourceTransactionManager dtm = new DataSourceTransactionManager();
-        dtm.setDataSource(druidDataSource());
+        dtm.setDataSource(dataSource);
         return dtm;
     }
 }
