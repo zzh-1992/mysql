@@ -6,15 +6,16 @@ package com.grapefruit.springboot.mysql.config;
 
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.BeansException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
-import javax.sql.DataSource;
 import java.io.IOException;
 
 /**
@@ -25,10 +26,9 @@ import java.io.IOException;
  * @date 2021-05-30 1:17 下午
  */
 @Configuration
-public class MyConfig {
-    @Autowired
-    @Qualifier("myRoutingDatasourceConfig")
-    private DataSource dataSource;
+public class MyBatisConfig implements ApplicationContextAware {
+
+    private ApplicationContext context;
 
     /**
      * 获取mapper路径资源
@@ -48,10 +48,12 @@ public class MyConfig {
 
     // 官方链接:http://mybatis.org/spring/zh/factorybean.html
     @Bean
+    @ConditionalOnBean(Databases.class)
     public SqlSessionFactoryBean getSqlSessionFactoryBean() {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+
         // 数据源设置
-        bean.setDataSource(dataSource);
+        bean.setDataSource(context.getBean(LocalRoutingDatasourceConfig.class));
 
         // mapper路径设置
         bean.setMapperLocations(getResource());
@@ -65,7 +67,7 @@ public class MyConfig {
      *
      * @return MapperScannerConfigurer
      */
-    //@Bean
+    @Bean
     public MapperScannerConfigurer getMapperScannerConfigurer() {
         MapperScannerConfigurer scanner = new MapperScannerConfigurer();
         scanner.setBasePackage("com.grapefruit.springboot.mysql.mapper");
@@ -77,10 +79,15 @@ public class MyConfig {
      *
      * @return DataSourceTransactionManager
      */
-    //@Bean()
+    @Bean()
     public DataSourceTransactionManager getDataSourceTransactionManager() {
         DataSourceTransactionManager dtm = new DataSourceTransactionManager();
-        dtm.setDataSource(dataSource);
+        dtm.setDataSource(context.getBean(LocalRoutingDatasourceConfig.class));
         return dtm;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        context = applicationContext;
     }
 }

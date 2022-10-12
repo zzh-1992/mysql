@@ -25,7 +25,7 @@ import java.util.Map;
  */
 @Slf4j
 @Configuration
-public class MyRoutingDatasourceConfig extends AbstractRoutingDataSource {
+public class LocalRoutingDatasourceConfig extends AbstractRoutingDataSource {
 
     Map<Object, Object> targetDataSources = new HashMap<>();
 

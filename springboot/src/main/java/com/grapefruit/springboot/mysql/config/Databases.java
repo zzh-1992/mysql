@@ -5,13 +5,11 @@
 package com.grapefruit.springboot.mysql.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
 
@@ -26,16 +24,13 @@ import javax.sql.DataSource;
 @Configuration
 @Slf4j
 public class Databases {
-
     public final static String MASTER_DATASOURCE_KEY = "masterDB";
     public final static String SLAVE_DATASOURCE_KEY = "slaveDB";
 
     @Value("${spring.datasource.type}")
     private Class<? extends DataSource> dataSourceType;
 
-    @Primary
     @Bean(name = MASTER_DATASOURCE_KEY)
-    @Qualifier(MASTER_DATASOURCE_KEY)
     @ConfigurationProperties(prefix = "spring.datasource.master")
     public DataSource masterDataSource() {
         log.info("create master datasource...");
@@ -43,7 +38,6 @@ public class Databases {
     }
 
     @Bean(name = SLAVE_DATASOURCE_KEY)
-    @Qualifier(SLAVE_DATASOURCE_KEY)
     @ConfigurationProperties(prefix = "spring.datasource.slave")
     public DataSource slaveDataSource() {
         log.info("create slave datasource...");

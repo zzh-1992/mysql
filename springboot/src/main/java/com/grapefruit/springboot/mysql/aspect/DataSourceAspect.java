@@ -5,7 +5,7 @@
 package com.grapefruit.springboot.mysql.aspect;
 
 import com.grapefruit.springboot.mysql.config.Databases;
-import com.grapefruit.springboot.mysql.config.MyRoutingDatasourceConfig;
+import com.grapefruit.springboot.mysql.config.LocalRoutingDatasourceConfig;
 import com.grapefruit.springboot.mysql.utils.ThreadLocalUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -29,7 +29,7 @@ public class DataSourceAspect {
     public static ThreadLocal<String> threadLocal = new ThreadLocal<>();
 
     @Autowired
-    MyRoutingDatasourceConfig config;
+    LocalRoutingDatasourceConfig config;
 
     @Pointcut(value = "@annotation(DbType)")
     public void myPointCut() {

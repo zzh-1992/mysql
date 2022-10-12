@@ -1,0 +1,10 @@
+
+
+
+### slaveDB
+GET http://127.0.0.1:8088/sql/selectAll
+Accept: application/json
+
+### masterDB
+GET http://127.0.0.1:8088/sql/selectAllMaster
+Accept: application/json

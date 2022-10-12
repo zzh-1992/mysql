@@ -17,13 +17,15 @@ import java.util.List;
  */
 public interface MyDao {
 
-  Grape selectGrapeById(int id);
+    Grape selectGrapeById(int id);
 
-  int upGrapeById(Grape grape);
+    int upGrapeById(Grape grape);
 
-  int insert(Grape grape);
+    int insert(Grape grape);
 
-  int insertList(List<Grape> list);
+    int insertList(List<Grape> list);
 
-  int deleteList(List<String> list);
+    int deleteList(List<String> list);
+
+    List selectAll();
 }

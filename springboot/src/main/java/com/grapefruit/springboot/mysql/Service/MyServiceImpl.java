@@ -74,4 +74,9 @@ public class MyServiceImpl implements MyService {
     public int deleteList(List<String> list) {
         return myDao.deleteList(list);
     }
+
+    @Override
+    public List<Grape> selectAll() {
+        return myDao.selectAll();
+    }
 }

@@ -4,10 +4,11 @@
 
 package com.grapefruit.springboot.mysql.controller;
 
+import com.grapefruit.springboot.mysql.Req;
 import com.grapefruit.springboot.mysql.Service.MyService;
 import com.grapefruit.springboot.mysql.aspect.DB;
 import com.grapefruit.springboot.mysql.aspect.DbType;
-import com.grapefruit.springboot.mysql.entity.Fruit;
+import com.grapefruit.springboot.mysql.entity.Grape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,7 @@ public class SelectController {
 
     @DbType(DB.SLAVE)
     @RequestMapping("/selectAll")
-    public List selectAll() {
+    public List<Grape> selectAll() {
         return myService.selectAll();
 
         /*ModelAndView mv = new ModelAndView();
@@ -47,7 +48,7 @@ public class SelectController {
 
     @DbType(DB.MASTER)
     @RequestMapping("/selectAllMaster")
-    public List selectAllMaster() {
+    public List<Grape> selectAllMaster() {
         return myService.selectAll();
 
         /*ModelAndView mv = new ModelAndView();
@@ -65,14 +66,14 @@ public class SelectController {
     }
 
     @RequestMapping(value = "/selectById", method = RequestMethod.POST)
-    public Fruit selectById(@RequestBody @Valid Req req) {
+    public Grape selectById(@RequestBody @Valid Req req) {
         int id = req.getId();
         return myService.selectGrapeById(id);
     }
 
     @RequestMapping("/insert")
     public int insert() {
-        Fruit fruit = new Fruit();
+        Grape fruit = new Grape();
         fruit.setId(10);
         fruit.setContent("数据添加测试");
         fruit.setName("insert test");
@@ -82,9 +83,9 @@ public class SelectController {
 
     @RequestMapping("/insertList")
     public int insertList() {
-        List<Fruit> list = new ArrayList<>();
+        List<Grape> list = new ArrayList<>();
         for (int i = 50; i <= 55; i++) {
-            Fruit fruit = new Fruit();
+            Grape fruit = new Grape();
             fruit.setId(i);
             fruit.setContent("数据添加测试");
             fruit.setName("insert test");

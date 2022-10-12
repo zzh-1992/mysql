@@ -22,39 +22,39 @@ import java.util.List;
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    //@ExceptionHandler
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
     public JSONObject handle(Exception ex) {
         // 创建响应体
         JSONObject j = new JSONObject();
 
         // 填充异常对象
-        j.put("class",ex.getClass().getName());
+        j.put("class", ex.getClass().getName());
 
         // 处理请求参数异常
-        if(ex instanceof MethodArgumentNotValidException){
-            MethodArgumentNotValidException exception = (MethodArgumentNotValidException)ex;
-            List<ObjectError> errors = exception.getAllErrors();
+        if (ex instanceof MethodArgumentNotValidException) {
+            MethodArgumentNotValidException exception = (MethodArgumentNotValidException) ex;
+            List<ObjectError> errors = exception.getBindingResult().getAllErrors();
             StringBuilder sb = new StringBuilder();
-            errors.forEach(e->{
+            errors.forEach(e -> {
                 sb.append(e.getDefaultMessage());
                 sb.append(";");
             });
 
-            j.put("code",1);
-            j.put("msg",sb.toString());
-            j.put("content","参数错误");
+            j.put("code", 1);
+            j.put("msg", sb.toString());
+            j.put("content", "参数错误");
 
             return j;
         }
 
         // 处理其他异常
-        j.put("code",2);
+        j.put("code", 2);
         j.put("msg", ex.getMessage());
-        j.put("content","error");
+        j.put("content", "error");
         return j;
     }
 
-    @ExceptionHandler(value = { Exception.class })
+    @ExceptionHandler(value = {Exception.class})
     public ModelAndView nullPointerExceptionHandler(Exception e) {
         ModelAndView mv = new ModelAndView();
         mv.addObject("error", e.toString());
